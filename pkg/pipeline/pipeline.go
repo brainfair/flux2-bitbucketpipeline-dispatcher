@@ -34,6 +34,7 @@ func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string
 		return err
 	}
 	defer resp.Body.Close()
+	fmt.Println(resp.Status)
 	if resp.StatusCode != 201 {
 		return fmt.Errorf("received non-201 status: %s", resp.Status)
 	}
