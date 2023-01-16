@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -37,5 +38,10 @@ func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string
 		return fmt.Errorf("received non-201 status: %s", resp.Status)
 	}
 
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(respBody))
 	return nil
 }
