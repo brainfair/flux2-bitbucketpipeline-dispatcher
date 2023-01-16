@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flux2-bitbucketpipeline-dispatcher/pkg/pipeline"
 	"fmt"
 	"net/http"
 )
@@ -51,7 +52,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	pipeline.triggerPipeline("1", "2", "3", "4", "5")
+	pipeline.TriggerPipeline("1", "2", "3", "4", "5")
 }
 
 func main() {

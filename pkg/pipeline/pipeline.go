@@ -9,7 +9,7 @@ import (
 
 func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string) error {
 	client := &http.Client{}
-	data := map[string]string{
+	data := map[string]interface{}{
 		"target": map[string]string{
 			"ref_type": "branch",
 			"type":     "pipeline_ref_target",
