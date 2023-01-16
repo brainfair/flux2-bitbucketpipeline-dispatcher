@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flux2-bitbucketpipeline-dispatcher/pkg/pipeline"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -52,7 +53,16 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	pipeline.TriggerPipeline("1", "2", "3", "4", "5")
+	username := "your_username"
+	password := "your_password"
+
+	repoOwner := "your_repo_owner"
+	repoSlug := "your_repo_slug"
+	pipelineKey := "your_pipeline_key"
+
+	if err := pipeline.TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey); err != nil {
+		log.Println("Error:", err)
+	}
 }
 
 func main() {
