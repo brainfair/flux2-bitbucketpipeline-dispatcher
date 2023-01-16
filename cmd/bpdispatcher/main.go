@@ -51,7 +51,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	pipeline.triggerPipeline(1, 2, 3, 4, 5)
+	pipeline.triggerPipeline("1", "2", "3", "4", "5")
 }
 
 func main() {
