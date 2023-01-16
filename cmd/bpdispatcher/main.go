@@ -67,22 +67,19 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func checkEnv(envVar string, ok bool) {
+	if !ok {
+		fmt.Printf("%s environment variable not set\n", envVar)
+		os.Exit(1)
+	}
+}
+
 func main() {
-	if !ok1 {
-		fmt.Println("USERNAME environment variable not set")
-	}
-	if !ok2 {
-		fmt.Println("PASSWORD environment variable not set")
-	}
-	if !ok3 {
-		fmt.Println("REPO_OWNER environment variable not set")
-	}
-	if !ok4 {
-		fmt.Println("REPO_SLUG environment variable not set")
-	}
-	if !ok5 {
-		fmt.Println("PIPELINE_KEY environment variable not set")
-	}
+	checkEnv("USERNAME", ok1)
+	checkEnv("PASSWORD", ok2)
+	checkEnv("REPO_OWNER", ok3)
+	checkEnv("REPO_SLUG", ok4)
+	checkEnv("PIPELINE_KEY", ok5)
 	http.HandleFunc("/webhook", handleWebhook)
 	http.ListenAndServe(":8000", nil)
 }
