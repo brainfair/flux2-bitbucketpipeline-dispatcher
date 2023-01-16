@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func triggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string) error {
+func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string) error {
 	client := &http.Client{}
 	data := map[string]string{
 		"target": map[string]string{
