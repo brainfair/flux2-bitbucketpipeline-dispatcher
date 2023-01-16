@@ -6,6 +6,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
+)
+
+var (
+	Username, ok1    = os.LookupEnv("USERNAME")
+	Password, ok2    = os.LookupEnv("PASSWORD")
+	RepoOwner, ok3   = os.LookupEnv("REPO_OWNER")
+	RepoSlug, ok4    = os.LookupEnv("REPO_SLUG")
+	PipelineKey, ok5 = os.LookupEnv("PIPELINE_KEY")
 )
 
 type Webhook struct {
@@ -53,19 +62,27 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	username := "your_username"
-	password := "your_password"
-
-	repoOwner := "your_repo_owner"
-	repoSlug := "your_repo_slug"
-	pipelineKey := "your_pipeline_key"
-
-	if err := pipeline.TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey); err != nil {
+	if err := pipeline.TriggerPipeline(Username, Password, RepoOwner, RepoSlug, PipelineKey); err != nil {
 		log.Println("Error:", err)
 	}
 }
 
 func main() {
+	if !ok1 {
+		fmt.Println("USERNAME environment variable not set")
+	}
+	if !ok2 {
+		fmt.Println("PASSWORD environment variable not set")
+	}
+	if !ok3 {
+		fmt.Println("REPO_OWNER environment variable not set")
+	}
+	if !ok4 {
+		fmt.Println("REPO_SLUG environment variable not set")
+	}
+	if !ok5 {
+		fmt.Println("PIPELINE_KEY environment variable not set")
+	}
 	http.HandleFunc("/webhook", handleWebhook)
 	http.ListenAndServe(":8000", nil)
 }
