@@ -10,11 +10,10 @@ import (
 )
 
 var (
-	Username, ok1    = os.LookupEnv("USERNAME")
-	Password, ok2    = os.LookupEnv("PASSWORD")
-	RepoOwner, ok3   = os.LookupEnv("REPO_OWNER")
-	RepoSlug, ok4    = os.LookupEnv("REPO_SLUG")
-	PipelineKey, ok5 = os.LookupEnv("PIPELINE_KEY")
+	AccessToken, ok1 = os.LookupEnv("ACCESS_TOKEN")
+	RepoOwner, ok2   = os.LookupEnv("REPO_OWNER")
+	RepoSlug, ok3    = os.LookupEnv("REPO_SLUG")
+	PipelineKey, ok4 = os.LookupEnv("PIPELINE_KEY")
 )
 
 type Webhook struct {
@@ -62,9 +61,17 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	if err := pipeline.TriggerPipeline(Username, Password, RepoOwner, RepoSlug, PipelineKey); err != nil {
+	if err := pipeline.TriggerPipeline(AccessToken, RepoOwner, RepoSlug, PipelineKey); err != nil {
 		log.Println("Error:", err)
 	}
+}
+
+func livenessProbe(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "ok")
+}
+
+func readinessProbe(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "ok")
 }
 
 func checkEnv(envVar string, ok bool) {
@@ -75,11 +82,13 @@ func checkEnv(envVar string, ok bool) {
 }
 
 func main() {
-	checkEnv("USERNAME", ok1)
-	checkEnv("PASSWORD", ok2)
-	checkEnv("REPO_OWNER", ok3)
-	checkEnv("REPO_SLUG", ok4)
-	checkEnv("PIPELINE_KEY", ok5)
+	checkEnv("ACCESS_TOKEN", ok1)
+	checkEnv("REPO_OWNER", ok2)
+	checkEnv("REPO_SLUG", ok3)
+	checkEnv("PIPELINE_KEY", ok4)
 	http.HandleFunc("/webhook", handleWebhook)
+	http.HandleFunc("/healthz", livenessProbe)
+	http.HandleFunc("/ready", readinessProbe)
+
 	http.ListenAndServe(":8000", nil)
 }

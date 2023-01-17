@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string) error {
+func TriggerPipeline(accessToken, repoOwner, repoSlug, pipelineKey string) error {
 	client := &http.Client{}
 	data := map[string]interface{}{
 		"target": map[string]string{
@@ -30,7 +30,7 @@ func TriggerPipeline(username, password, repoOwner, repoSlug, pipelineKey string
 		return err
 	}
 	req.Header.Add("Content-Type", "application/json")
-	req.SetBasicAuth(username, password)
+	req.Header.Add("Authorization", "Bearer "+accessToken)
 
 	resp, err := client.Do(req)
 	if err != nil {
