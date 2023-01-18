@@ -38,6 +38,7 @@ type Webhook struct {
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
+	var pipeVariables []map[string]string
 	if r.Method != http.MethodPost {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
@@ -64,7 +65,16 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	if err := pipeline.TriggerPipeline(AccessToken, RepoOwner, RepoSlug, PipelineKey, PipelineRef); err != nil {
+	pipeVariables = append(pipeVariables, map[string]string{"key": "KIND", "value": data.InvolvedObject.Kind})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "NAME", "value": data.InvolvedObject.Name})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "NAMESPACE", "value": data.InvolvedObject.Namespace})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "REVISION", "value": data.Metadata.Revision})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "SUMMARY", "value": data.Metadata.Summary})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "SEVERITY", "value": data.Severity})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "REASON", "value": data.Reason})
+	pipeVariables = append(pipeVariables, map[string]string{"key": "MESSAGE", "value": data.Message})
+
+	if err := pipeline.TriggerPipeline(AccessToken, RepoOwner, RepoSlug, PipelineRef, pipeVariables); err != nil {
 		log.Println("Error:", err)
 	}
 }

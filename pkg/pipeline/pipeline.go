@@ -9,14 +9,19 @@ import (
 	"net/http"
 )
 
-func TriggerPipeline(accessToken, repoOwner, repoSlug, pipelineKey, pipelineRef string) error {
+func TriggerPipeline(accessToken, repoOwner, repoSlug, pipelineRef string, pipeVariables []map[string]string) error {
 	client := &http.Client{}
 	data := map[string]interface{}{
-		"target": map[string]string{
+		"target": map[string]interface{}{
 			"ref_type": "branch",
 			"type":     "pipeline_ref_target",
 			"ref_name": pipelineRef,
+			"selector": map[string]string{
+				"type":    "custom",
+				"pattern": "pr-promotion",
+			},
 		},
+		"variables": pipeVariables,
 	}
 	body, err := json.Marshal(data)
 	if err != nil {
