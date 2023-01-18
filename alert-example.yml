@@ -1,0 +1,26 @@
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Provider
+metadata:
+  name: generic
+  namespace: bpdispatcher
+spec:
+  type: generic
+  address: http://bpdispatcher.bpdispatcher/webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta2
+kind: Alert
+metadata:
+  name: test-dispatch
+  namespace: bpdispatcher
+spec:
+  providerRef:
+    name: generic
+  summary: "env=stg"
+  eventSeverity: info
+  eventSources:
+    - kind: HelmRelease
+      name: '*'
+  exclusionList:
+    - ".*upgrade.*has.*started"
+    - ".*is.*not.*ready"
+    - "^Dependencies.*"

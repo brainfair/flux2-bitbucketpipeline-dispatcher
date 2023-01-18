@@ -16,3 +16,8 @@ With Bpdispatcher you can use Generic Webhook from Flux and trigger any bitbucke
 * Install
   * [bpdispatcher install on Kubernetes](https://brainfair.github.io/flux2-bitbucketpipeline-dispatcher/)
 
+* Bitbucket pipeline:
+  * pipeline shoud be named pr-promotion under custom section ([pipeline template](bitbucket-pipeline.yml))
+
+* FluxCD Provide and Alert:
+  * [Example of Provide and Alert for flux](alert-example.yml)
