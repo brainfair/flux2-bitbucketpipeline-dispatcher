@@ -13,8 +13,7 @@ var (
 	AccessToken, ok1 = os.LookupEnv("ACCESS_TOKEN")
 	RepoOwner, ok2   = os.LookupEnv("REPO_OWNER")
 	RepoSlug, ok3    = os.LookupEnv("REPO_SLUG")
-	PipelineKey, ok4 = os.LookupEnv("PIPELINE_KEY")
-	PipelineRef, ok5 = os.LookupEnv("PIPELINE_REF")
+	PipelineRef, ok4 = os.LookupEnv("PIPELINE_REF")
 )
 
 type Webhook struct {
@@ -98,8 +97,7 @@ func main() {
 	checkEnv("ACCESS_TOKEN", ok1)
 	checkEnv("REPO_OWNER", ok2)
 	checkEnv("REPO_SLUG", ok3)
-	checkEnv("PIPELINE_KEY", ok4)
-	checkEnv("PIPELINE_REF", ok5)
+	checkEnv("PIPELINE_REF", ok4)
 	http.HandleFunc("/webhook", handleWebhook)
 	http.HandleFunc("/healthz", livenessProbe)
 	http.HandleFunc("/ready", readinessProbe)
