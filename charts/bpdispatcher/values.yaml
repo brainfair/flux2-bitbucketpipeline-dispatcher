@@ -7,7 +7,7 @@ image:
   repository: brainfair/bpdispatcher
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.9"
+  tag: "v0.0.10"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -29,7 +29,6 @@ env:
   REPO_OWNER: repo_owner
   REPO_SLUG: repo_slug
   PIPELINE_REF: master
-  
 securityContext: {}
 # capabilities:
 #   drop:
