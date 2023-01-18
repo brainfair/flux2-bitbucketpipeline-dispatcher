@@ -14,6 +14,7 @@ var (
 	RepoOwner, ok2   = os.LookupEnv("REPO_OWNER")
 	RepoSlug, ok3    = os.LookupEnv("REPO_SLUG")
 	PipelineKey, ok4 = os.LookupEnv("PIPELINE_KEY")
+	PipelineRef, ok5 = os.LookupEnv("PIPELINE_REF")
 )
 
 type Webhook struct {
@@ -61,7 +62,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Timestamp:", data.Timestamp)
 	fmt.Fprint(w, "JSON received and parsed!")
 
-	if err := pipeline.TriggerPipeline(AccessToken, RepoOwner, RepoSlug, PipelineKey); err != nil {
+	if err := pipeline.TriggerPipeline(AccessToken, RepoOwner, RepoSlug, PipelineKey, PipelineRef); err != nil {
 		log.Println("Error:", err)
 	}
 }
@@ -86,6 +87,7 @@ func main() {
 	checkEnv("REPO_OWNER", ok2)
 	checkEnv("REPO_SLUG", ok3)
 	checkEnv("PIPELINE_KEY", ok4)
+	checkEnv("PIPELINE_REF", ok5)
 	http.HandleFunc("/webhook", handleWebhook)
 	http.HandleFunc("/healthz", livenessProbe)
 	http.HandleFunc("/ready", readinessProbe)

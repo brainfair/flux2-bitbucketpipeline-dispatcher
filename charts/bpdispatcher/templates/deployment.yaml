@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "bpdispatcher.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "bpdispatcher.selectorLabels" . | nindent 6 }}
@@ -45,6 +43,9 @@ spec:
             httpGet:
               path: /ready
               port: http
+          envFrom:
+          - secretRef:
+              name: {{ include "bpdispatcher.fullname" . }}-secret
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

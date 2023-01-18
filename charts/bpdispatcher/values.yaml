@@ -23,6 +23,14 @@ podAnnotations: {}
 podSecurityContext: {}
 # fsGroup: 2000
 
+# env variables
+env:
+  ACCESS_TOKEN: token_here
+  REPO_OWNER: repo_owner
+  REPO_SLUG: repo_slug
+  PIPELINE_KEY: pipe_key
+  PIPELINE_REF: master
+
 securityContext: {}
 # capabilities:
 #   drop:
