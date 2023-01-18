@@ -25,15 +25,13 @@ type Webhook struct {
 		Namespace  string `json:"namespace"`
 		UID        string `json:"uid"`
 	} `json:"involvedObject"`
-	Metadata struct {
-		Revision string `json:"kustomize.toolkit.fluxcd.io/revision"`
-	} `json:"metadata"`
-	Severity            string `json:"severity"`
-	Reason              string `json:"reason"`
-	Message             string `json:"message"`
-	ReportingController string `json:"reportingController"`
-	ReportingInstance   string `json:"reportingInstance"`
-	Timestamp           string `json:"timestamp"`
+	Metadata            map[string]string `json:"metadata"`
+	Severity            string            `json:"severity"`
+	Reason              string            `json:"reason"`
+	Message             string            `json:"message"`
+	ReportingController string            `json:"reportingController"`
+	ReportingInstance   string            `json:"reportingInstance"`
+	Timestamp           string            `json:"timestamp"`
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +51,7 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Kind:", data.InvolvedObject.Kind)
 	fmt.Println("Name:", data.InvolvedObject.Name)
 	fmt.Println("Namespace:", data.InvolvedObject.Namespace)
-	fmt.Println("Revision:", data.Metadata.Revision)
+	fmt.Println("Metadata:", data.Metadata)
 	fmt.Println("Severity:", data.Severity)
 	fmt.Println("Reason:", data.Reason)
 	fmt.Println("Message:", data.Message)
