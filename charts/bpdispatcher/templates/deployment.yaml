@@ -17,6 +17,7 @@ spec:
       {{- end }}
       labels:
         {{- include "bpdispatcher.selectorLabels" . | nindent 8 }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
