@@ -1,4 +1,4 @@
-FROM golang:1.23.2-alpine as builder
+FROM golang:1.23.2-alpine AS builder
 
 ARG TARGETPLATFORM
 ARG REVISON
