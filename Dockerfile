@@ -20,7 +20,7 @@ COPY pkg/ pkg/
 RUN CGO_ENABLED=0 go build \
     -a -o bpdispatcher ./cmd/bpdispatcher
 
-FROM alpine:3.21
+FROM alpine:3.22
 
 RUN apk --no-cache add ca-certificates
 
