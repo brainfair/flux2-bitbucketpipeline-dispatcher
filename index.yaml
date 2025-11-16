@@ -3,6 +3,16 @@ entries:
   bpdispatcher:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2025-11-16T11:45:19.923135992Z"
+    description: A Helm chart for Kubernetes
+    digest: c63a4b277c8f82676240f9bb8d44220b043a659b695575d4ad608122969bc1bc
+    name: bpdispatcher
+    type: application
+    urls:
+    - https://github.com/brainfair/flux2-bitbucketpipeline-dispatcher/releases/download/bpdispatcher-0.1.43/bpdispatcher-0.1.43.tgz
+    version: 0.1.43
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-11-02T13:34:36.920533027Z"
     description: A Helm chart for Kubernetes
     digest: 551b9258b23257c1aaab89af756db83661bcdd8d63d0050ebc4f28aa611bc941
@@ -391,4 +401,4 @@ entries:
     urls:
     - https://github.com/brainfair/flux2-bitbucketpipeline-dispatcher/releases/download/bpdispatcher-0.1.1/bpdispatcher-0.1.1.tgz
     version: 0.1.1
-generated: "2025-11-02T13:34:36.9208186Z"
+generated: "2025-11-16T11:45:19.923415184Z"
